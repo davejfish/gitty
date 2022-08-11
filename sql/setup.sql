@@ -13,9 +13,9 @@ CREATE TABLE gh_users (
 
 CREATE TABLE posts_users (
   id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  userID BIGINT NOT NULL,
+  user_id BIGINT NOT NULL,
   content VARCHAR NOT NULL,
-  FOREIGN KEY (userID) REFERENCES gh_users(id)
+  FOREIGN KEY (user_id) REFERENCES gh_users(id)
 );
 
 INSERT INTO gh_users 
@@ -26,7 +26,7 @@ VALUES
 ('shan', 'shan@shan.com', 'http://placekitten.com/200/300');
 
 INSERT INTO posts_users
-(userID, content)
+(user_id, content)
 VALUES
 ('1', 'super post from super user'),
 ('2', 'another one from another'),
