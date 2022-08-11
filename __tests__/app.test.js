@@ -10,8 +10,13 @@ describe('backend-express-template routes', () => {
     return setup(pool);
   });
 
-  it('test', () => {
-    expect(1).toEqual(1);
+  it('#DELETE /sessions should return 401 when not signed in', async () => {
+    const response = await request(app).delete('/api/v1/github/sessions');
+    expect(response.status).toBe(401);
+    expect(response.body).toEqual({
+      status: 401,
+      message: 'You must be signed in to continue',
+    });
   });
 
   afterAll(() => {
