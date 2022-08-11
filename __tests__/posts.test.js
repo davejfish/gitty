@@ -27,9 +27,8 @@ describe('backend-express-template routes', () => {
 
   it('#INSERT /posts should insert a post from a logged in user', async () => {
     const user = await agent.get('/api/v1/github/callback?code=42').redirects(1);
-
     const response = await agent.post('/api/v1/posts').send({
-      user_id: user.user_id,
+      user_id: user.body.id,
       content: 'lets go',
     });
 
