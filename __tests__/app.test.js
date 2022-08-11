@@ -4,6 +4,7 @@ const request = require('supertest');
 const app = require('../lib/app');
 
 jest.mock('../lib/services/github');
+const agent = request.agent(app);
 
 describe('backend-express-template routes', () => {
   beforeEach(() => {
@@ -19,15 +20,20 @@ describe('backend-express-template routes', () => {
     });
   });
 
+  it('#DELETE /sessions should delete a cookie when a user is signed in', async () => {
+    await agent.get('/api/v1/github/callback?code=42').redirects(1);
+    const response = await agent.delete('/api/v1/github/sessions');
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({ success: true, message: 'signed out' });
+  });
+
   afterAll(() => {
     pool.end();
   });
 
   it('should login and redirect users to /api/v1/github/dashboard', async () => {
-    const response = await request
-      .agent(app)
-      .get('/api/v1/github/callback?code=42')
-      .redirects(1);
+    const response = await agent.get('/api/v1/github/callback?code=42').redirects(1);
       
     expect(response.body).toEqual({
       id: expect.any(String),
