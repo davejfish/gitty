@@ -14,7 +14,7 @@ CREATE TABLE gh_users (
 CREATE TABLE posts_users (
   id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   user_id BIGINT NOT NULL,
-  content VARCHAR NOT NULL,
+  content VARCHAR(255) NOT NULL,
   FOREIGN KEY (user_id) REFERENCES gh_users(id)
 );
 
